@@ -119,7 +119,7 @@ ol.control.LayerSwitcher.prototype.setMap = function(map) {
 ol.control.LayerSwitcher.prototype.ensureTopVisibleBaseLayerShown_ = function() {
     var lastVisibleBaseLyr;
     ol.control.LayerSwitcher.forEachRecursive(this.getMap(), function(l, idx, a) {
-        if (l.get('type') === 'base' && l.getVisible()) {
+        if (l.get('levelType') === 'base' && l.getVisible()) {
             lastVisibleBaseLyr = l;
         }
     });
@@ -136,10 +136,10 @@ ol.control.LayerSwitcher.prototype.ensureTopVisibleBaseLayerShown_ = function() 
 ol.control.LayerSwitcher.prototype.setVisible_ = function(lyr, visible) {
     var map = this.getMap();
     lyr.setVisible(visible);
-    if (visible && lyr.get('type') === 'base') {
+    if (visible && lyr.get('levelType') === 'base') {
         // Hide all other base layers regardless of grouping
         ol.control.LayerSwitcher.forEachRecursive(map, function(l, idx, a) {
-            if (l != lyr && l.get('type') === 'base') {
+            if (l != lyr && l.get('levelType') === 'base') {
                 l.setVisible(false);
             }
         });
@@ -176,7 +176,7 @@ ol.control.LayerSwitcher.prototype.renderLayer_ = function(lyr, idx) {
     } else {
 
         var input = document.createElement('input');
-        if (lyr.get('type') === 'base') {
+        if (lyr.get('levelType') === 'base') {
             input.type = 'radio';
             input.name = 'base';
         } else {
